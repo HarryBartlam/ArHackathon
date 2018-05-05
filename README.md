@@ -7,6 +7,8 @@ A Basic Android project using [**Google Poly**](https://poly.google.com/) and [*
 
 This project was made as part of a hackathon in a extremely limited time and is intended to show the  use of [**ARCore**](https://developers.google.com/ar/discover/) on Android with the display of model from an online source. For this the app uses [**Google Poly API**](https://developers.google.com/poly/develop/api).
 
+<img src="demo/demo_arhackathon.gif" height="500" alt="Ar Hackatron Demo gif"/>
+
 Code for the display of the ARcore Elements has been sourced and edited from [Novoda](https://github.com/novoda/spikes).
 
 ## Architecture

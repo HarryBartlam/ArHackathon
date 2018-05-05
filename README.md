@@ -1,2 +1,3 @@
 # ArHackathon
-A basic Android project using google poly and ARcore made in a 2 hour HackaThon
+A Basic Android project using [Google Poly](https://poly.google.com/) and [ARCore](https://developers.google.com/ar/discover/) made in a 2 hour HackaThon
+

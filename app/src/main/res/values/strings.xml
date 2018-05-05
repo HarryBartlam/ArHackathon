@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">ArHackathon</string>
+
+    <string name="search_input_hint">Search</string>
+    <string name="search_button">Search</string>
+    <string name="search_found_title">Found:</string>
+</resources>

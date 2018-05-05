@@ -1,0 +1,117 @@
+buildscript {
+    ext.kotlin_version = '1.2.31'
+    repositories {
+        google()
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.1.2'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        jcenter()
+    }
+
+    ext {
+        buildNumber = 1
+        targetSdk = 27
+        minSdk = 24
+        compileSdk = 27
+        buildTools = '27.0.3'
+        defaultDimen = "default"
+    }
+
+    def okhttpVer = '3.10.0'
+    def supportLibraryVer = '27.1.1'
+    def constraintLayoutVer = '1.1.0'
+    def retrofitVer = '2.4.0'
+    def rxBindingVer = '2.1.1'
+    def rxLifecycleVer = '2.2.1'
+
+    ext {
+        ktlintRules = ['com.github.shyiko:ktlint:0.10.0']
+        kotlin = ["org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"]
+        coreutils = ["com.android.support:support-core-utils:$supportLibraryVer"]
+        recyclerview = ["com.android.support:recyclerview-v7:$supportLibraryVer"]
+        constraintlayout = ["com.android.support.constraint:constraint-layout:$constraintLayoutVer"]
+        design = ["com.android.support:design:$supportLibraryVer"]
+        cardview = ["com.android.support:cardview-v7:$supportLibraryVer"]
+        timber = ['com.jakewharton.timber:timber:4.7.0']
+        rxjava = ["io.reactivex.rxjava2:rxjava:2.1.13",
+                  "io.reactivex.rxjava2:rxandroid:2.0.2",
+                  "io.reactivex.rxjava2:rxkotlin:2.2.0"]
+        okhttp = ["com.squareup.okhttp3:okhttp:$okhttpVer",
+                  "com.squareup.okhttp3:logging-interceptor:$okhttpVer"]
+        retrofit = ["com.squareup.retrofit2:retrofit:$retrofitVer",
+                    "com.squareup.retrofit2:converter-gson:$retrofitVer",
+                    "com.squareup.retrofit2:adapter-rxjava2:$retrofitVer"]
+        rxbinding = ["com.jakewharton.rxbinding2:rxbinding-kotlin:$rxBindingVer",
+                     "com.jakewharton.rxbinding2:rxbinding-design-kotlin:$rxBindingVer",
+                     "com.jakewharton.rxbinding2:rxbinding-recyclerview-v7-kotlin:$rxBindingVer",
+                     "com.jakewharton.rxbinding2:rxbinding-appcompat-v7-kotlin:$rxBindingVer",
+                     "com.jakewharton.rxbinding2:rxbinding-support-v4-kotlin:$rxBindingVer"]
+        rxlifecycle = ["com.trello.rxlifecycle2:rxlifecycle:$rxLifecycleVer",
+                       "com.trello.rxlifecycle2:rxlifecycle-components:$rxLifecycleVer",
+                       "com.trello.rxlifecycle2:rxlifecycle-kotlin:$rxLifecycleVer"]
+
+        gson = ['com.google.code.gson:gson:2.8.3']
+
+    }
+
+    ext.internalProject = { code ->
+        dependencies {
+            implementation project(":$code")
+        }
+    }
+
+    ext.exposedProject = { code ->
+        dependencies {
+            api project(":$code")
+        }
+    }
+
+    ext.internalLib = { codes ->
+        def map = new HashMap<String, String>();
+        map.put("", "implementation")
+        map.put("A", "kapt")
+        map.put("C", "compileOnly")
+        map.put("D", "debugImplementation")
+        map.put("R", "releaseImplementation")
+        addLib(map, codes)
+    }
+
+    ext.exposedLib = { codes ->
+        def map = new HashMap<String, String>();
+        map.put("", "api")
+        map.put("A", "kapt")
+        map.put("C", "compileOnly")
+        map.put("D", "debugApi")
+        map.put("R", "releaseApi")
+        addLib(map, codes)
+    }
+
+    ext.addLib = { mapping, libraries ->
+        dependencies {
+            libraries.each {
+                if (it.getChars()[0].isUpperCase()) {
+                    def dep = [it.substring(1)]
+                    def code = it.substring(0,1)
+                    def method = mapping[code]
+                    "$method"(dep)
+                } else {
+                    def dep = [it]
+                    def method = mapping['']
+                    "$method"(dep)
+                }
+            }
+        }
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}

@@ -1,0 +1,21 @@
+<resources>
+
+    <style name="Theme.ArHackathon" parent="Base.Theme.ArHackathon">
+    </style>
+
+    <style name="Base.Theme.ArHackathon" parent="Theme.AppCompat.Light">
+        <item name="colorPrimary">@color/color_primary</item>
+        <item name="colorPrimaryDark">@color/color_primary_dark</item>
+        <item name="colorAccent">@color/color_accent</item>
+        <item name="android:windowBackground">@color/window_background</item>
+
+    </style>
+
+    <style name="AppTheme" parent="Base.Theme.ArHackathon" />
+
+    <style name="ToolbarTheme" parent="ThemeOverlay.AppCompat.ActionBar" >
+        <item name="android:textColor">@color/text_white</item>
+    </style>
+
+
+</resources>

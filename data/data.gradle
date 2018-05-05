@@ -1,0 +1,47 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+android {
+    compileSdkVersion(compileSdk)
+    buildToolsVersion(buildTools)
+
+    defaultConfig {
+        minSdkVersion(minSdk)
+        targetSdkVersion(targetSdk)
+    }
+
+    buildTypes {
+        debug {}
+        release {}
+    }
+
+    flavorDimensions defaultDimen
+
+    productFlavors {
+        standard {
+            dimension defaultDimen
+            buildConfigField "String", "API_KEY_POLY", "\"AIzaSyBgaMOTJOgb2NMqHetsfuKQ8OkX1jGV4bs\""
+            buildConfigField "String", "BASE_API_URL", "\"https://poly.googleapis.com\""
+            buildConfigField "String", "BASE_API_VERSION", "\"v1\""
+
+        }
+    }
+}
+
+apply from: '../ktlint.gradle'
+
+internalLib(okhttp)
+internalLib(gson)
+internalLib(retrofit)
+exposedLib(kotlin)
+exposedLib(rxjava)
+exposedLib(recyclerview)
+exposedLib(timber)
+exposedLib(coreutils)
+
+dependencies {
+    implementation 'com.google.ar:core:1.1.0'
+
+}

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.mandatoryfun.harrybartlam">
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-feature
+        android:name="android.hardware.camera.ar"
+        android:required="true" />
+
+    <application
+        android:name=".ArHackathon"
+        android:allowBackup="false"
+        android:icon="@mipmap/ic_launcher"
+        android:label="${appName}${appNameSuffix}"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.ArHackathon"
+        tools:ignore="GoogleAppIndexingWarning">
+        <meta-data
+            android:name="com.google.ar.core"
+            android:value="required" />
+        <activity android:name=".ui.search.SearchActivity"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".ui.ar.ArActivity"
+            android:screenOrientation="portrait">
+        </activity>
+    </application>
+
+</manifest>

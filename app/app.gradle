@@ -1,0 +1,143 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+android {
+    compileSdkVersion(compileSdk)
+    buildToolsVersion(buildTools)
+
+    defaultConfig {
+        applicationId "com.mandatoryfun.harrybartlam"
+        minSdkVersion(minSdk)
+        targetSdkVersion(targetSdk)
+
+        versionName "0.0.3"
+        versionCode(buildNumber)
+        manifestPlaceholders = [appName: "ArHackathon"]
+
+        multiDexEnabled false
+
+        buildConfigField "int", "TEST_VERSION", "25"
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                includeCompileClasspath true
+            }
+        }
+
+    }
+
+    compileOptions {
+        sourceCompatibility 1.7
+        targetCompatibility 1.7
+    }
+
+    signingConfigs {
+        release {
+            storeFile file("release.jks")
+            storePassword "92c12f7651fc60dfb035062d54fb30d4"
+            keyAlias "fun"
+            keyPassword "78e1881761b3b15c6531be016f950d0c"
+        }
+        debug {
+            storeFile file("debug.keystore")
+        }
+    }
+
+    buildTypes {
+        release {
+            debuggable false
+            minifyEnabled true
+            shrinkResources true
+            manifestPlaceholders = [appNameSuffix: ""]
+            signingConfig signingConfigs.release
+
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles '../proguard/gson.pro'
+            proguardFiles '../proguard/kotlin.pro'
+            proguardFiles '../proguard/lifecycle.pro'
+            proguardFiles '../proguard/okhttp.pro'
+            proguardFiles '../proguard/okhttp3.pro'
+            proguardFiles '../proguard/okio.pro'
+            proguardFiles '../proguard/play-services.pro'
+            proguardFiles '../proguard/retrofit2.pro'
+            proguardFiles '../proguard/rxjava.pro'
+            proguardFiles '../proguard/support-design.pro'
+            proguardFiles '../proguard/support-v7-appcompat.pro'
+            proguardFiles '../proguard/support-v7-cardview.pro'
+        }
+
+        debug {
+            debuggable true
+            minifyEnabled false
+            shrinkResources false
+            manifestPlaceholders = [appNameSuffix: " - Dev"]
+            applicationIdSuffix ".debug"
+            versionNameSuffix "dev"
+            signingConfig signingConfigs.debug
+
+            buildConfigField "boolean", "DEV", "true"
+        }
+
+        qa {
+            matchingFallbacks = ['debug']
+            debuggable true
+            minifyEnabled false
+            shrinkResources false
+            manifestPlaceholders = [appNameSuffix: " - QA"]
+            applicationIdSuffix ".qa"
+            versionNameSuffix "qa"
+            signingConfig signingConfigs.debug
+        }
+    }
+
+    flavorDimensions defaultDimen
+
+    productFlavors {
+        standard {
+            dimension defaultDimen
+        }
+    }
+
+    packagingOptions {
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/rxjava.properties'
+    }
+
+    sourceSets {
+        test {
+            java.srcDirs += "$projectDir/src/sharedTest/java"
+        }
+
+        androidTest {
+            java.srcDirs += "$projectDir/src/sharedTest/java"
+        }
+    }
+
+}
+
+configurations.all {
+    resolutionStrategy {
+        force 'com.google.guava:guava:22.0'
+    }
+}
+
+apply from: '../ktlint.gradle'
+apply from: '../testing.gradle'
+
+internalProject('baseapp')
+
+internalLib(rxbinding)
+internalLib(design)
+internalLib(recyclerview)
+internalLib(cardview)
+internalLib(rxlifecycle)
+internalLib(retrofit)
+
+
+dependencies {
+    implementation 'com.google.ar:core:1.1.0'
+    implementation 'de.javagl:obj:0.2.1'
+}
